@@ -48,6 +48,7 @@ public class Sort extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (int i = 0; i < numsOfBoxes; i++) {
+
         }
     }
 }

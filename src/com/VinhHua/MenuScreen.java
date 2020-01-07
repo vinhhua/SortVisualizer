@@ -4,6 +4,10 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 
 public class MenuScreen extends JFrame{
 
@@ -40,9 +44,8 @@ public class MenuScreen extends JFrame{
         JButton shuffleBtn = new JButton("     Shuffle     ");
 
         // Sliders
-        JSlider sizeSlid = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
-
-        JSlider delaySlid = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+        JSlider sizeSlid = new JSlider(JSlider.HORIZONTAL, 25, 200, 25);
+        JSlider delaySlid = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
 
         // JTextArea
         JTextArea algorithmsTime = new JTextArea(runTimes[0]);
@@ -70,16 +73,32 @@ public class MenuScreen extends JFrame{
 
         // delay slider
         addComp(panel, delaySlid, 0, 5, gridBagConstraints);
+        Dictionary<Integer, JLabel> dict = new Hashtable<>();
+        for (int i = 0; i <= 100; i += 20) {
+            dict.put(i, new JLabel(i + ""));
+        }
+
         delaySlid.setMajorTickSpacing(20);
-        delaySlid.setPaintTicks(false);
+        delaySlid.setLabelTable(dict);
+        delaySlid.setPaintLabels(true);
+        delaySlid.setPaintTicks(true);
+        delaySlid.setSnapToTicks(true);
 
         // size of boxes label
         addComp(panel, sizeL, 0, 6, gridBagConstraints);
 
         // size slider selection
         addComp(panel, sizeSlid, 0, 7, gridBagConstraints);
+        Dictionary<Integer, JLabel> dict2 = new Hashtable<>();
+        for (int i = 50; i <= 200; i += 50) {
+            dict2.put(i, new JLabel(i + ""));
+        }
+
         sizeSlid.setMajorTickSpacing(50);
-        sizeSlid.setPaintTicks(false);
+        sizeSlid.setLabelTable(dict2);
+        sizeSlid.setPaintLabels(true);
+        sizeSlid.setPaintTicks(true);
+        sizeSlid.setSnapToTicks(true);
 
         // Comparisons done label
         JLabel comparison = new JLabel("Comparisons done: ");
