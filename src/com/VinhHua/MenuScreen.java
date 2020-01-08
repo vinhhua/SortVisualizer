@@ -5,14 +5,14 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 
 public class MenuScreen extends JFrame{
 
+    private JButton startBtn;
+    private JButton shuffleBtn;
     private final static int WIDTH = 800;
-    private final static int HEIGHT = 500;
+    private final static int HEIGHT = 570;
     private final String[] sortAlgos = {"Bubble Sort", "Selection Sort", "Insertion Sort", "Quick Sort", "Merge Sort"};
     private final String[] runTimes = {"Best case: O(n^2)\nWorst case: O(n^2)", "Best case: O(n^2)\nWorst case: O(n^2)"};
     private Sort sort;
@@ -21,6 +21,7 @@ public class MenuScreen extends JFrame{
     public MenuScreen() {
         UISetUp();
         setFrameProperties();
+        buttonsListener();
     }
 
     private void UISetUp() {
@@ -28,8 +29,9 @@ public class MenuScreen extends JFrame{
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         Dimension dimension = new Dimension();
-        dimension.width = 250;
+        dimension.width = 260;
         panel.setPreferredSize(dimension);
+
 
         // Labels
         JLabel algorithmsL = new JLabel("Sort Algorithms");
@@ -40,11 +42,11 @@ public class MenuScreen extends JFrame{
         JComboBox<String> sortAlgorithms = new JComboBox<>(sortAlgos);
 
         // Buttons
-        JButton startBtn = new JButton("       Sort       ");
-        JButton shuffleBtn = new JButton("     Shuffle     ");
+        startBtn = new JButton("       Sort       ");
+        shuffleBtn = new JButton("     Shuffle     ");
 
         // Sliders
-        JSlider sizeSlid = new JSlider(JSlider.HORIZONTAL, 25, 200, 25);
+        JSlider sizeSlid = new JSlider(JSlider.HORIZONTAL, 20, 100, 20);
         JSlider delaySlid = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
 
         // JTextArea
@@ -90,11 +92,11 @@ public class MenuScreen extends JFrame{
         // size slider selection
         addComp(panel, sizeSlid, 0, 7, gridBagConstraints);
         Dictionary<Integer, JLabel> dict2 = new Hashtable<>();
-        for (int i = 50; i <= 200; i += 50) {
+        for (int i = 20; i <= 100; i += 20) {
             dict2.put(i, new JLabel(i + ""));
         }
 
-        sizeSlid.setMajorTickSpacing(50);
+        sizeSlid.setMajorTickSpacing(20);
         sizeSlid.setLabelTable(dict2);
         sizeSlid.setPaintLabels(true);
         sizeSlid.setPaintTicks(true);
@@ -123,7 +125,21 @@ public class MenuScreen extends JFrame{
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         panel.add(algorithmsTime, gridBagConstraints);
 
-        this.add(panel, BorderLayout.WEST);
+        add(panel, BorderLayout.WEST);
+
+        sort = new Sort();
+        add(sort, BorderLayout.CENTER);
+    }
+
+    private void buttonsListener() {
+        startBtn.addActionListener(e -> {
+            System.out.println("Testing, it works");
+        });
+
+        shuffleBtn.addActionListener(e -> {
+            sort.shuffle();
+            sort.resetState();
+        });
     }
 
     private void setFrameProperties() {
@@ -131,8 +147,9 @@ public class MenuScreen extends JFrame{
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.pack();
+//        this.setLayout(new BorderLayout());
         this.setVisible(true);
+        this.pack();
         this.setLocationRelativeTo(null);
     }
 
