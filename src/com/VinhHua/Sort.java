@@ -5,7 +5,8 @@ import java.awt.*;
 import java.util.Random;
 
 public class Sort extends JPanel{
-    private final int numsOfBoxes = 20;
+    private int numsOfBoxes = 50;
+    private int delay = 0;
     private final int shuffle = 500;
     private Random random = new Random();
     // to change colors
@@ -14,25 +15,35 @@ public class Sort extends JPanel{
     private int off = 0;
     private boolean sorting = false;
     private boolean shuffled = false;
-    private int SIZE = 550;
+    private int SIZE = 600;
     private int width = SIZE / numsOfBoxes;
-    private int[] list;
+    private int[] array;
     private MenuScreen menuScreen;
 
     public Sort() {
         shuffle();
+
     }
 
 
     public void start() {
-
+        bubbleSort();
+//        insertionSort();
     }
 
     // create a list of boxes to sort
     public void createList() {
-        list = new int[numsOfBoxes];
+        array = new int[numsOfBoxes];
         for (int i = 0; i < numsOfBoxes; i++) {
-            list[i] = i + 1;
+            array[i] = i + 1;
+        }
+    }
+
+    public void delay() {
+        try {
+            Thread.sleep(delay);
+        } catch (Exception e) {
+            System.out.println(e + "");
         }
     }
 
@@ -55,13 +66,58 @@ public class Sort extends JPanel{
         for (int i = 0; i < shuffle; i++) {
             for (int j = 0; j < numsOfBoxes; j++) {
                 int rand = random.nextInt(numsOfBoxes);
-                int temp = list[j];
-                list[j] = list[rand];
-                list[rand] = temp;
+                int temp = array[j];
+                array[j] = array[rand];
+                array[rand] = temp;
             }
         }
         sorting = false;
         shuffled = true;
+    }
+
+    private void bubbleSort() {
+        for (int i = array.length - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (array[j] > array[j + 1]) {
+                    swap(j, j + 1);
+                    update();
+                }
+            }
+        }
+    }
+
+    private void insertionSort() {
+        for (int i = 1; i < array.length; i++) {
+            int key = array[i];
+            int j = i;
+            while (j > 0 && array[j - 1] > key) {
+                update();
+                delay();
+                array[j] = array[j - 1];
+                j--;
+            }
+            array[j] = key;
+        }
+    }
+
+    public void swap(int i1, int i2) {
+        delay();
+        int temp = array[i1];
+        array[i1] = array[i2];
+        array[i2] = temp;
+
+    }
+
+    public void setNumsOfBoxes(int val) {
+        this.numsOfBoxes = val;
+    }
+
+    public void changeSortingStatus() {
+        this.sorting = !sorting;
+    }
+
+    public void setDelay(int val) {
+        this.delay = val;
     }
 
     // TO DO
@@ -69,17 +125,16 @@ public class Sort extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         setBackground(Color.LIGHT_GRAY);
-        for (int i = 0; i < numsOfBoxes; i++) {
-            int HEIGHT = list[i] * width;
+        for (int i = 0; i < array.length; i++) {
+            int HEIGHT = array[i] * width;
             g.setColor(Color.WHITE);
-            if (current > -1 && current == i) {
+            if (current > -1 && i == current) {
                 g.setColor(Color.GREEN);
             }
-            if (current > -1 && current == checking) {
+            if (checking > -1 && i == checking) {
                 g.setColor(Color.RED);
             }
             g.fillRect(i * width, SIZE - HEIGHT, width, HEIGHT);
-            g.setColor(Color.BLACK);
             g.drawRect(i * width, SIZE - HEIGHT, width, HEIGHT);
         }
     }

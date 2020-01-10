@@ -9,10 +9,12 @@ import java.util.Hashtable;
 
 public class MenuScreen extends JFrame{
 
+    private JSlider sizeSlid;
+    private JSlider delaySlid;
     private JButton startBtn;
     private JButton shuffleBtn;
-    private final static int WIDTH = 800;
-    private final static int HEIGHT = 570;
+    private final static int WIDTH = 850;
+    private final static int HEIGHT = 625;
     private final String[] sortAlgos = {"Bubble Sort", "Selection Sort", "Insertion Sort", "Quick Sort", "Merge Sort"};
     private final String[] runTimes = {"Best case: O(n^2)\nWorst case: O(n^2)", "Best case: O(n^2)\nWorst case: O(n^2)"};
     private Sort sort;
@@ -22,6 +24,9 @@ public class MenuScreen extends JFrame{
         UISetUp();
         setFrameProperties();
         buttonsListener();
+        sort = new Sort();
+        add(sort, BorderLayout.CENTER);
+//        this.pack();
     }
 
     private void UISetUp() {
@@ -29,9 +34,8 @@ public class MenuScreen extends JFrame{
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         Dimension dimension = new Dimension();
-        dimension.width = 260;
+        dimension.width = 250;
         panel.setPreferredSize(dimension);
-
 
         // Labels
         JLabel algorithmsL = new JLabel("Sort Algorithms");
@@ -46,8 +50,8 @@ public class MenuScreen extends JFrame{
         shuffleBtn = new JButton("     Shuffle     ");
 
         // Sliders
-        JSlider sizeSlid = new JSlider(JSlider.HORIZONTAL, 20, 100, 20);
-        JSlider delaySlid = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
+        sizeSlid = new JSlider(JSlider.HORIZONTAL, 50, 200, 50);
+        delaySlid = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
 
         // JTextArea
         JTextArea algorithmsTime = new JTextArea(runTimes[0]);
@@ -80,7 +84,7 @@ public class MenuScreen extends JFrame{
             dict.put(i, new JLabel(i + ""));
         }
 
-        delaySlid.setMajorTickSpacing(20);
+        delaySlid.setMajorTickSpacing(10);
         delaySlid.setLabelTable(dict);
         delaySlid.setPaintLabels(true);
         delaySlid.setPaintTicks(true);
@@ -92,15 +96,16 @@ public class MenuScreen extends JFrame{
         // size slider selection
         addComp(panel, sizeSlid, 0, 7, gridBagConstraints);
         Dictionary<Integer, JLabel> dict2 = new Hashtable<>();
-        for (int i = 20; i <= 100; i += 20) {
+        for (int i = 50; i <= 200; i += 50) {
             dict2.put(i, new JLabel(i + ""));
         }
 
-        sizeSlid.setMajorTickSpacing(20);
+        sizeSlid.setMajorTickSpacing(50);
         sizeSlid.setLabelTable(dict2);
         sizeSlid.setPaintLabels(true);
         sizeSlid.setPaintTicks(true);
         sizeSlid.setSnapToTicks(true);
+
 
         // Comparisons done label
         JLabel comparison = new JLabel("Comparisons done: ");
@@ -125,20 +130,32 @@ public class MenuScreen extends JFrame{
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         panel.add(algorithmsTime, gridBagConstraints);
 
+        this.setLayout(new BorderLayout());
         add(panel, BorderLayout.WEST);
-
-        sort = new Sort();
-        add(sort, BorderLayout.CENTER);
     }
 
     private void buttonsListener() {
         startBtn.addActionListener(e -> {
             System.out.println("Testing, it works");
+            sort.changeSortingStatus();
+            sort.start();
         });
 
         shuffleBtn.addActionListener(e -> {
             sort.shuffle();
             sort.resetState();
+        });
+
+        sizeSlid.addChangeListener(e -> {
+            int val = sizeSlid.getValue();
+            sort.setNumsOfBoxes(val);
+            sort.shuffle();
+            sort.resetState();
+        });
+
+        delaySlid.addChangeListener(e -> {
+            int val = delaySlid.getValue();
+            sort.setDelay(val);
         });
     }
 
@@ -147,7 +164,6 @@ public class MenuScreen extends JFrame{
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        this.setLayout(new BorderLayout());
         this.setVisible(true);
         this.pack();
         this.setLocationRelativeTo(null);
