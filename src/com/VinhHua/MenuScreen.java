@@ -13,10 +13,14 @@ public class MenuScreen extends JFrame{
     private JSlider delaySlid;
     private JButton startBtn;
     private JButton shuffleBtn;
+    private int currentAlg = 0;
+    private JComboBox<String> sortAlgorithms;
+    private JTextArea algorithmsTime;
     private final static int WIDTH = 850;
     private final static int HEIGHT = 625;
     private final String[] sortAlgos = {"Bubble Sort", "Selection Sort", "Insertion Sort", "Quick Sort", "Merge Sort"};
-    private final String[] runTimes = {"Best case: O(n^2)\nWorst case: O(n^2)", "Best case: O(n^2)\nWorst case: O(n^2)"};
+    private final String[] runTimes = {"Best case: O(n^2)\nWorst case: O(n^2)", "Best case: O(n^2)\nWorst case: O(n^2)",
+                                        "\nFILL", "\nFILL", "\nFILL", "\nFILL"};
     private Sort sort;
 
 
@@ -26,7 +30,6 @@ public class MenuScreen extends JFrame{
         buttonsListener();
         sort = new Sort();
         add(sort, BorderLayout.CENTER);
-//        this.pack();
     }
 
     private void UISetUp() {
@@ -43,7 +46,7 @@ public class MenuScreen extends JFrame{
         JLabel sizeL = new JLabel("Size");
 
         // Sort algorithm's combo box
-        JComboBox<String> sortAlgorithms = new JComboBox<>(sortAlgos);
+        sortAlgorithms = new JComboBox<>(sortAlgos);
 
         // Buttons
         startBtn = new JButton("       Sort       ");
@@ -54,7 +57,7 @@ public class MenuScreen extends JFrame{
         delaySlid = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
 
         // JTextArea
-        JTextArea algorithmsTime = new JTextArea(runTimes[0]);
+        algorithmsTime = new JTextArea(runTimes[0]);
 
         // Border
         Border innerBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "Sort Visualizer");
@@ -132,13 +135,14 @@ public class MenuScreen extends JFrame{
 
         this.setLayout(new BorderLayout());
         add(panel, BorderLayout.WEST);
+        sort.sorting();
     }
 
     private void buttonsListener() {
         startBtn.addActionListener(e -> {
-            System.out.println("Testing, it works");
-            sort.changeSortingStatus();
-            sort.start();
+            if (sort.isShuffled()) {
+                sort.changeSortingStatus();
+            }
         });
 
         shuffleBtn.addActionListener(e -> {
@@ -157,12 +161,23 @@ public class MenuScreen extends JFrame{
             int val = delaySlid.getValue();
             sort.setDelay(val);
         });
+
+        sortAlgorithms.addActionListener(e -> {
+            currentAlg = sortAlgorithms.getSelectedIndex();
+            algorithmsTime.setText(runTimes[currentAlg]);
+        });
+
     }
+
+    public int getCurrentAlg() {
+        return this.currentAlg;
+    }
+
 
     private void setFrameProperties() {
         this.setTitle("Sort Visualizer");
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.setResizable(false);
+//        this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
         this.pack();
