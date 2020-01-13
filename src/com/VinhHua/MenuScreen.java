@@ -7,8 +7,7 @@ import java.awt.*;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class MenuScreen extends JFrame{
-
+public class MenuScreen extends JFrame {
     private JSlider sizeSlid;
     private JSlider delaySlid;
     private JButton startBtn;
@@ -18,12 +17,16 @@ public class MenuScreen extends JFrame{
     private JTextArea algorithmsTime;
     private final static int WIDTH = 850;
     private final static int HEIGHT = 625;
-    private final String[] sortAlgos = {"Bubble Sort", "Selection Sort", "Insertion Sort", "Quick Sort", "Merge Sort"};
+    private final String[] sortAlgos = {"Bubble Sort", "Insertion Sort", "Selection Sort", "Quick Sort", "Merge Sort"};
     private final String[] runTimes = {"Best case: O(n^2)\nWorst case: O(n^2)", "Best case: O(n^2)\nWorst case: O(n^2)",
-                                        "\nFILL", "\nFILL", "\nFILL", "\nFILL"};
+            "Best case: O(n)\nWorst case: O(n^2)", "Best case: O(n log n)\nWorst case: O(n^2)",
+            "Best case: O(n log n)\nWorst case: O(n log n)"};
     private Sort sort;
 
 
+    /**
+     * Default constructor for the Menu.
+     */
     public MenuScreen() {
         UISetUp();
         setFrameProperties();
@@ -32,6 +35,10 @@ public class MenuScreen extends JFrame{
         add(sort, BorderLayout.CENTER);
     }
 
+    /**
+     * Most of the components are here in this method.
+     * It is a mess.
+     */
     private void UISetUp() {
         // Menu panel
         JPanel panel = new JPanel();
@@ -53,8 +60,8 @@ public class MenuScreen extends JFrame{
         shuffleBtn = new JButton("     Shuffle     ");
 
         // Sliders
-        sizeSlid = new JSlider(JSlider.HORIZONTAL, 50, 200, 50);
-        delaySlid = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
+        sizeSlid = new JSlider(JSlider.HORIZONTAL, 50, 300, 100);
+        delaySlid = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
 
         // JTextArea
         algorithmsTime = new JTextArea(runTimes[0]);
@@ -99,10 +106,11 @@ public class MenuScreen extends JFrame{
         // size slider selection
         addComp(panel, sizeSlid, 0, 7, gridBagConstraints);
         Dictionary<Integer, JLabel> dict2 = new Hashtable<>();
-        for (int i = 50; i <= 200; i += 50) {
+        for (int i = 50; i <= 300; i += 50) {
             dict2.put(i, new JLabel(i + ""));
         }
 
+        // size slider labels, ticks, blah blah
         sizeSlid.setMajorTickSpacing(50);
         sizeSlid.setLabelTable(dict2);
         sizeSlid.setPaintLabels(true);
@@ -126,7 +134,7 @@ public class MenuScreen extends JFrame{
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         panel.add(array, gridBagConstraints);
 
-//        addComp(panel, algorithmsTime, 0, 10, gridBagConstraints);
+        addComp(panel, algorithmsTime, 0, 10, gridBagConstraints);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = GridBagConstraints.NONE;
@@ -135,14 +143,14 @@ public class MenuScreen extends JFrame{
 
         this.setLayout(new BorderLayout());
         add(panel, BorderLayout.WEST);
-        sort.sorting();
     }
 
+    /**
+     * Action listeners for buttons and sliders.
+     */
     private void buttonsListener() {
         startBtn.addActionListener(e -> {
-            if (sort.isShuffled()) {
-                sort.changeSortingStatus();
-            }
+            backgroundThread();
         });
 
         shuffleBtn.addActionListener(e -> {
@@ -163,17 +171,37 @@ public class MenuScreen extends JFrame{
         });
 
         sortAlgorithms.addActionListener(e -> {
-            currentAlg = sortAlgorithms.getSelectedIndex();
+            this.currentAlg = sortAlgorithms.getSelectedIndex();
             algorithmsTime.setText(runTimes[currentAlg]);
+            System.out.println("index at " + currentAlg);
         });
 
     }
 
-    public int getCurrentAlg() {
-        return this.currentAlg;
+    /**
+     * SwingWorker, so I can run the sort in the background without the animation freezing up.
+     */
+    private void backgroundThread() {
+        if (sort.isShuffled()) {
+            SwingWorker<Void, Void> worker = new SwingWorker<>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    if (currentAlg == 0) sort.bubbleSort();
+                    else if (currentAlg == 1) sort.insertionSort();
+                    else if (currentAlg == 2) sort.selectionSort();
+                    else if (currentAlg == 3) sort.quickSortNoParameters();
+                    else sort.mergeSortNoParameters();
+                    return null;
+                }
+            };
+            worker.execute();
+            sort.changeSortingStatus();
+        }
     }
 
-
+    /**
+     * Set up the properties of the frame and it is cleaner this way.
+     */
     private void setFrameProperties() {
         this.setTitle("Sort Visualizer");
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -184,7 +212,15 @@ public class MenuScreen extends JFrame{
         this.setLocationRelativeTo(null);
     }
 
-    // custom gridbaglayout
+    /**
+     * Custom gridBagLayOut that is very useful to customize the position of all the components if GUI have to be done manually.
+     *
+     * @param panel              the JPanel that you want to add the component to.
+     * @param component          the component that you want to add to the panel.
+     * @param gridx              the x position.
+     * @param gridy              the y position.
+     * @param gridBagConstraints the layout that you want to use, gridbagConstraints in this case tho.
+     */
     private void addComp(JPanel panel, JComponent component, int gridx, int gridy, GridBagConstraints gridBagConstraints) {
         gridBagConstraints.gridx = gridx;
         gridBagConstraints.gridy = gridy;
@@ -194,5 +230,4 @@ public class MenuScreen extends JFrame{
         gridBagConstraints.fill = GridBagConstraints.NONE;
         panel.add(component, gridBagConstraints);
     }
-
 }
