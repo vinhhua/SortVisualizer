@@ -1,3 +1,6 @@
 # SortVisualiser
-The problem seems to be something to do with threading.
-Gonna re do the project from a different approach.
+Bubble Sort.
+Insertion Sort.
+Selection Sort.
+Merge Sort.
+Quick Sort.
