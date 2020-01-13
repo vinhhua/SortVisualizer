@@ -35,6 +35,7 @@ public class MenuScreen extends JFrame {
         add(sort, BorderLayout.CENTER);
     }
 
+
     /**
      * Most of the components are here in this method.
      * It is a mess.
@@ -44,7 +45,7 @@ public class MenuScreen extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         Dimension dimension = new Dimension();
-        dimension.width = 250;
+        dimension.width = 247;
         panel.setPreferredSize(dimension);
 
         // Labels
@@ -145,6 +146,7 @@ public class MenuScreen extends JFrame {
         add(panel, BorderLayout.WEST);
     }
 
+
     /**
      * Action listeners for buttons and sliders.
      */
@@ -173,10 +175,10 @@ public class MenuScreen extends JFrame {
         sortAlgorithms.addActionListener(e -> {
             this.currentAlg = sortAlgorithms.getSelectedIndex();
             algorithmsTime.setText(runTimes[currentAlg]);
-            System.out.println("index at " + currentAlg);
+            System.out.println("current sort index at " + currentAlg);
         });
-
     }
+
 
     /**
      * SwingWorker, so I can run the sort in the background without the animation freezing up.
@@ -199,18 +201,20 @@ public class MenuScreen extends JFrame {
         }
     }
 
+
     /**
      * Set up the properties of the frame and it is cleaner this way.
      */
     private void setFrameProperties() {
         this.setTitle("Sort Visualizer");
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-//        this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setVisible(true);
+        this.setResizable(false);
         this.pack();
         this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
+
 
     /**
      * Custom gridBagLayOut that is very useful to customize the position of all the components if GUI have to be done manually.

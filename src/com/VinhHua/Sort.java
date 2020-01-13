@@ -15,6 +15,7 @@ public class Sort extends JPanel{
     private int width = SIZE / numsOfBoxes;
     private int[] array;
 
+
     /**
      * Default constructor to start the sort panel and to add it to a frame.
      */
@@ -22,16 +23,18 @@ public class Sort extends JPanel{
         shuffle();
     }
 
+
     /**
      * Creates a list with a default value of 100 arrays.
      * User can change the size of the array with the size sliders from UI.
      */
     public void createList() {
         array = new int[numsOfBoxes];
-        for (int i = 0; i < numsOfBoxes; i++) {
+        for (int i = 0; i < array.length; i++) {
             array[i] = i + 1;
         }
     }
+
 
     /**
      * Set the delay of thread, to simulate the sorting process.
@@ -44,6 +47,7 @@ public class Sort extends JPanel{
         }
     }
 
+
     /**
      * Resets the state of the array.
      */
@@ -51,6 +55,7 @@ public class Sort extends JPanel{
         sorting = false;
         update();
     }
+
 
     /**
      * To repaint and to also calculate the width, so its always within the given size.
@@ -61,6 +66,7 @@ public class Sort extends JPanel{
         repaint();
     }
 
+
     /**
      * Shuffle the list 500 times so its evenly spread out.
      * Place the temp into the array randomly from 0 to the number of arrays.
@@ -68,7 +74,7 @@ public class Sort extends JPanel{
     public void shuffle() {
         createList();
         for (int i = 0; i < SHUFFLE; i++) {
-            for (int j = 0; j < numsOfBoxes; j++) {
+            for (int j = 0; j < array.length; j++) {
                 int rand = random.nextInt(numsOfBoxes);
                 int temp = array[j];
                 array[j] = array[rand];
@@ -78,6 +84,7 @@ public class Sort extends JPanel{
         sorting = false;
         shuffled = true;
     }
+
 
     /**
      * Bubble sort.
@@ -95,6 +102,7 @@ public class Sort extends JPanel{
         }
     }
 
+
     /**
      * Insertion sort.
      * TO DO: Write description of the sort for practice and deeper understanding.
@@ -106,12 +114,14 @@ public class Sort extends JPanel{
             while (j > 0 && array[j - 1] > key) {
                 array[j] = array[j - 1];
                 j--;
+                update();
+                delay();
             }
             array[j] = key;
             update();
-            delay();
         }
     }
+
 
     /**
      * This method makes the calling it in menu much easier since I don't have to access the array with
@@ -123,6 +133,7 @@ public class Sort extends JPanel{
         quickSort(array, start, end);
     }
 
+
     /**
      * This method makes the calling it in menu much easier since I don't have to access the array with
      * another reference variable of sort and it is very confusing and always bugs out when I do that.
@@ -132,6 +143,7 @@ public class Sort extends JPanel{
         int end = array.length - 1;
         mergeSort(array, start, end);
     }
+
 
     /**
      * Merge sort.
@@ -148,6 +160,7 @@ public class Sort extends JPanel{
             merge(array, start, m, end);
         }
     }
+
 
     /**
      * Helper method for merge sort, this does the real work.
@@ -199,6 +212,7 @@ public class Sort extends JPanel{
         }
     }
 
+
     /**
      * Selection sort.
      * TO DO: Write description of the sort for practice and deeper understanding.
@@ -209,13 +223,15 @@ public class Sort extends JPanel{
             for (int j = 1; j <= i; j++) {
                 if (array[j] > array[largest]) {
                     largest = j;
+                    delay();
+                    update();
                 }
             }
             swap(largest, i);
             update();
-            delay();
         }
     }
+
 
     /**
      * Quick sort.
@@ -232,6 +248,7 @@ public class Sort extends JPanel{
         quickSort(array, start, pivotIndex);
         quickSort(array, pivotIndex + 1, end);
     }
+
 
     /**
      * The helper method, partition the array into parts, then sort it based on the pivot.
@@ -279,8 +296,8 @@ public class Sort extends JPanel{
         int temp = array[a];
         array[a] = array[b];
         array[b] = temp;
-
     }
+
 
     /**
      * Setter method to set the number of arrays. Used by the size slider.
@@ -290,12 +307,14 @@ public class Sort extends JPanel{
         this.numsOfBoxes = val;
     }
 
+
     /**
      * Change the status of sorting into its not current status.
      */
     public void changeSortingStatus() {
         this.sorting = !sorting;
     }
+
 
     /**
      * Setter method to set the delay of sorting. Used by the delay slider.
@@ -304,6 +323,7 @@ public class Sort extends JPanel{
     public void setDelay(int val) {
         this.delay = val;
     }
+
 
     /**
      * To check if the array is shuffled.
@@ -324,6 +344,7 @@ public class Sort extends JPanel{
         draw(g);
     }
 
+
     /**
      * Draws the rectangle that represents the elements in the arrays.
      * @param g as graphics.
@@ -336,5 +357,4 @@ public class Sort extends JPanel{
             g.drawRect(i * width, SIZE - HEIGHT, width, HEIGHT);
         }
     }
-
 }
