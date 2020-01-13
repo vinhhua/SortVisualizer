@@ -288,6 +288,78 @@ public class Sort extends JPanel{
 
 
     /**
+     * Heap sort, this one is a little bit complicated.
+     * TO-DO: will come back and write a more descriptive document.
+     */
+    public void heapSort() {
+        heapify(numsOfBoxes);
+        int end = numsOfBoxes - 1;
+        while (end > 0) {
+            swap(end, 0);
+            end--;
+            fixHeapBelow(0, end);
+            update();
+            delay();
+        }
+    }
+
+
+    /**
+     * Heapify, to get the to its appropriate heap position.
+     * @param index the index.
+     */
+    private void heapify(int index) {
+        int start = getParent(index - 1);
+        while (start >= 0) {
+            fixHeapBelow(start, index - 1);
+            start--;
+            update();
+            delay();
+        }
+    }
+
+
+    private void fixHeapBelow(int start, int end) {
+        int root = start;
+
+        while (getLeftChild(root) <= end) {
+            int child = getLeftChild(root);
+            int temp = root;
+            if (array[temp] < array[child]) {
+                temp = child;
+            } if (child + 1 <= end && array[temp] < array[child + 1]) {
+                temp = child + 1;
+            } if (temp == root) {
+                return;
+            } else {
+                swap(root, temp);
+                root = temp;
+            }
+            update();
+            delay();
+        }
+    }
+
+    /**
+     * Returns the parent node, which is always (i - 1) / 2 since heap is a special kind of binary tree. (do the math)
+     * @param index the int index.
+     * @return the parent index.
+     */
+    private int getParent(int index) {
+        return (index - 1) / 2;
+    }
+
+    /**
+     * Returns the left node.
+     * @param index as an int index.
+     * @return the left child node.
+     */
+    private int getLeftChild(int index) {
+        return 2 * index + 1;
+    }
+
+
+    /**
      * The swap helper method for bubble sort and selection sort.
      * @param a the first element.
      * @param b the second element.

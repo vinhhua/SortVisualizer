@@ -12,15 +12,17 @@ public class MenuScreen extends JFrame {
     private JSlider delaySlid;
     private JButton startBtn;
     private JButton shuffleBtn;
+    private JButton exitBtn;
     private int currentAlg = 0;
     private JComboBox<String> sortAlgorithms;
     private JTextArea algorithmsTime;
     private final static int WIDTH = 850;
     private final static int HEIGHT = 625;
-    private final String[] sortAlgos = {"Bubble Sort", "Insertion Sort", "Selection Sort", "Quick Sort", "Merge Sort"};
+    private final String[] sortAlgos = {"Bubble Sort", "Insertion Sort", "Selection Sort", "Quick Sort", "Merge Sort",
+                                        "Heap Sort"};
     private final String[] runTimes = {"Best case: O(n^2)\nWorst case: O(n^2)", "Best case: O(n^2)\nWorst case: O(n^2)",
             "Best case: O(n)\nWorst case: O(n^2)", "Best case: O(n log n)\nWorst case: O(n^2)",
-            "Best case: O(n log n)\nWorst case: O(n log n)"};
+            "Best case: O(n log n)\nWorst case: O(n log n)", "Best case: O(n log n)\nWorst case: O(n log n)"};
     private Sort sort;
 
 
@@ -142,6 +144,10 @@ public class MenuScreen extends JFrame {
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         panel.add(algorithmsTime, gridBagConstraints);
 
+        // Exit button
+        exitBtn = new JButton("    Exit    ");
+        addComp(panel, exitBtn, 0, 11, gridBagConstraints);
+
         this.setLayout(new BorderLayout());
         add(panel, BorderLayout.WEST);
     }
@@ -177,6 +183,8 @@ public class MenuScreen extends JFrame {
             algorithmsTime.setText(runTimes[currentAlg]);
             System.out.println("current sort index at " + currentAlg);
         });
+
+        exitBtn.addActionListener(e -> System.exit(0));
     }
 
 
@@ -192,7 +200,8 @@ public class MenuScreen extends JFrame {
                     else if (currentAlg == 1) sort.insertionSort();
                     else if (currentAlg == 2) sort.selectionSort();
                     else if (currentAlg == 3) sort.quickSortNoParameters();
-                    else sort.mergeSortNoParameters();
+                    else if (currentAlg == 4) sort.mergeSortNoParameters();
+                    else sort.heapSort();
                     return null;
                 }
             };
