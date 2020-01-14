@@ -288,6 +288,30 @@ public class Sort extends JPanel{
 
 
     /**
+     * Shell sort
+     */
+    public void shellSort() {
+        // As long as gap is > 0, continue this loop
+        for (int gap = array.length / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < array.length; i++) {
+                int newElement = array[i];
+
+                int j = i;
+                while (j >= gap && array[j - gap] > newElement) {
+                    array[j] = array[j - gap];
+                    j -= gap;
+                    update();
+                    delay();
+                }
+                array[j] = newElement;
+                update();
+                delay();
+            }
+        }
+    }
+
+
+    /**
      * Heap sort, this one is a little bit complicated.
      * TO-DO: will come back and write a more descriptive document.
      */

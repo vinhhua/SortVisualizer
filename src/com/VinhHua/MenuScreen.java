@@ -19,10 +19,11 @@ public class MenuScreen extends JFrame {
     private final static int WIDTH = 850;
     private final static int HEIGHT = 625;
     private final String[] sortAlgos = {"Bubble Sort", "Insertion Sort", "Selection Sort", "Quick Sort", "Merge Sort",
-                                        "Heap Sort"};
+                                        "Heap Sort", "Shell Sort"};
     private final String[] runTimes = {"Best case: O(n^2)\nWorst case: O(n^2)", "Best case: O(n^2)\nWorst case: O(n^2)",
             "Best case: O(n)\nWorst case: O(n^2)", "Best case: O(n log n)\nWorst case: O(n^2)",
-            "Best case: O(n log n)\nWorst case: O(n log n)", "Best case: O(n log n)\nWorst case: O(n log n)"};
+            "Best case: O(n log n)\nWorst case: O(n log n)", "Best case: O(n log n)\nWorst case: O(n log n)",
+            "Best case: O(n log n)\nWorst case: O(n log n)^2"};
     private Sort sort;
 
 
@@ -201,7 +202,8 @@ public class MenuScreen extends JFrame {
                     else if (currentAlg == 2) sort.selectionSort();
                     else if (currentAlg == 3) sort.quickSortNoParameters();
                     else if (currentAlg == 4) sort.mergeSortNoParameters();
-                    else sort.heapSort();
+                    else if (currentAlg == 5) sort.heapSort();
+                    else sort.shellSort();
                     return null;
                 }
             };
