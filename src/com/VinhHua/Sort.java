@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
-public class Sort extends JPanel{
+public class Sort extends JPanel {
     private int numsOfBoxes = 100;
     private int delay = 50;
     private final static int SHUFFLE = 500;
@@ -147,16 +147,17 @@ public class Sort extends JPanel{
 
     /**
      * Merge sort.
+     *
      * @param array the array that needs to be sorted.
      * @param start the starting index, usually 0.
-     * @param end the ending index, usually the array.length.
-     * TO DO: Write description of the sort for practice and deeper understanding.
+     * @param end   the ending index, usually the array.length.
+     *              TO DO: Write description of the sort for practice and deeper understanding.
      */
     public void mergeSort(int[] array, int start, int end) {
         if (start < end) {
-            int m = (start+end)/2;
+            int m = (start + end) / 2;
             mergeSort(array, start, m);
-            mergeSort(array, m+1, end);
+            mergeSort(array, m + 1, end);
             merge(array, start, m, end);
         }
     }
@@ -164,10 +165,11 @@ public class Sort extends JPanel{
 
     /**
      * Helper method for merge sort, this does the real work.
+     *
      * @param array the array that needs to be sorted and broken down into smaller arrays.
      * @param start the starting index.
-     * @param mid the middle index.
-     * @param end the ending index.
+     * @param mid   the middle index.
+     * @param end   the ending index.
      */
     private void merge(int[] array, int start, int mid, int end) {
         int n1 = mid - start + 1;
@@ -235,10 +237,11 @@ public class Sort extends JPanel{
 
     /**
      * Quick sort.
+     *
      * @param array the array that needs to be sorted.
      * @param start the starting index, usually 0.
-     * @param end the ending index, usually the length of the array.
-     * TO DO: Write description of the sort for practice and deeper understanding.
+     * @param end   the ending index, usually the length of the array.
+     *              TO DO: Write description of the sort for practice and deeper understanding.
      */
     public void quickSort(int[] array, int start, int end) {
         if (end - start < 2) {
@@ -254,9 +257,10 @@ public class Sort extends JPanel{
      * The helper method, partition the array into parts, then sort it based on the pivot.
      * If the element in said array is less than the pivot then put it to the left, if bigger than the pivot then
      * put it to the right.
+     *
      * @param array the array.
      * @param start the starting index.
-     * @param end the ending index.
+     * @param end   the ending index.
      * @return the pivot.
      */
     private int partition(int[] array, int start, int end) {
@@ -266,14 +270,14 @@ public class Sort extends JPanel{
 
         while (i < j) {
             // NOTE: empty loop body
-            while (i < j && array[--j] >= pivot);
+            while (i < j && array[--j] >= pivot) ;
             if (i < j) {
                 array[i] = array[j];
                 update();
                 delay();
             }
             // NOTE: empty loop body
-            while (i < j && array[++i] <= pivot);
+            while (i < j && array[++i] <= pivot) ;
             if (i < j) {
                 array[j] = array[i];
                 update();
@@ -330,6 +334,7 @@ public class Sort extends JPanel{
 
     /**
      * Heapify, to get the to its appropriate heap position.
+     *
      * @param index the index.
      */
     private void heapify(int index) {
@@ -351,9 +356,11 @@ public class Sort extends JPanel{
             int temp = root;
             if (array[temp] < array[child]) {
                 temp = child;
-            } if (child + 1 <= end && array[temp] < array[child + 1]) {
+            }
+            if (child + 1 <= end && array[temp] < array[child + 1]) {
                 temp = child + 1;
-            } if (temp == root) {
+            }
+            if (temp == root) {
                 return;
             } else {
                 swap(root, temp);
@@ -366,6 +373,7 @@ public class Sort extends JPanel{
 
     /**
      * Returns the parent node, which is always (i - 1) / 2 since heap is a special kind of binary tree. (do the math)
+     *
      * @param index the int index.
      * @return the parent index.
      */
@@ -375,6 +383,7 @@ public class Sort extends JPanel{
 
     /**
      * Returns the left node.
+     *
      * @param index as an int index.
      * @return the left child node.
      */
@@ -385,6 +394,7 @@ public class Sort extends JPanel{
 
     /**
      * The swap helper method for bubble sort and selection sort.
+     *
      * @param a the first element.
      * @param b the second element.
      */
@@ -397,6 +407,7 @@ public class Sort extends JPanel{
 
     /**
      * Setter method to set the number of arrays. Used by the size slider.
+     *
      * @param val the value of the slider.
      */
     public void setNumsOfBoxes(int val) {
@@ -414,6 +425,7 @@ public class Sort extends JPanel{
 
     /**
      * Setter method to set the delay of sorting. Used by the delay slider.
+     *
      * @param val the value of the slider.
      */
     public void setDelay(int val) {
@@ -423,6 +435,7 @@ public class Sort extends JPanel{
 
     /**
      * To check if the array is shuffled.
+     *
      * @return true if shuffled, false if otherwise.
      */
     public boolean isShuffled() {
@@ -431,6 +444,7 @@ public class Sort extends JPanel{
 
     /**
      * Paint the background to light gray and draw the arrays/ boxes.
+     *
      * @param g as graphics.
      */
     @Override
@@ -443,6 +457,7 @@ public class Sort extends JPanel{
 
     /**
      * Draws the rectangle that represents the elements in the arrays.
+     *
      * @param g as graphics.
      */
     private void draw(Graphics g) {

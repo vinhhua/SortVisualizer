@@ -19,7 +19,7 @@ public class MenuScreen extends JFrame {
     private final static int WIDTH = 850;
     private final static int HEIGHT = 625;
     private final String[] sortAlgos = {"Bubble Sort", "Insertion Sort", "Selection Sort", "Quick Sort", "Merge Sort",
-                                        "Heap Sort", "Shell Sort"};
+            "Heap Sort", "Shell Sort"};
     private final String[] runTimes = {"Best case: O(n^2)\nWorst case: O(n^2)", "Best case: O(n^2)\nWorst case: O(n^2)",
             "Best case: O(n)\nWorst case: O(n^2)", "Best case: O(n log n)\nWorst case: O(n^2)",
             "Best case: O(n log n)\nWorst case: O(n log n)", "Best case: O(n log n)\nWorst case: O(n log n)",
